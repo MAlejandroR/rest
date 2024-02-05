@@ -19,6 +19,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::apiResource("alumnos",\App\Http\Controllers\AlumnoController::class );
+Route::apiResource("alumnos",\App\Http\Controllers\AlumnoController::class )
+    ->middleware("auth:sanctum");
+Route::apiResource("projects",\App\Http\Controllers\ProjectController::class )
+    ->middleware("auth:sanctum");
+
 Route::post("login",[LoginController::class,"login"] )->name("login");
 Route::post("register",[LoginController::class,"register"] )->name("register");
+Route::get("user",[LoginController::class,"getUser"] )->name("user")->middleware("auth:sanctum");

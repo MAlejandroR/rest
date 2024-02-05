@@ -38,8 +38,11 @@ class Handler extends ExceptionHandler
         // Manejo personalizado de ValidationException
         if ($exception instanceof ValidationException) {
 
+
+
             return response()->json([
                 "error" => collect($exception->errors())->map(function ($message, $field) use ($exception) {
+                 $field =str_replace('data.attributes.', '', $field); // Esto debería quiter /data.attribute al campo $field
                     return [
                         'status' => '422',
                         'title' => 'Validation Error',
@@ -49,9 +52,10 @@ class Handler extends ExceptionHandler
                         ]
                     ];
                 })
-            ]);        }
+            ],422);        }
 
         if ($exception instanceof QueryException){
+            dump ($exception);
             return response()->json([
                 'errors' => [
                     [
